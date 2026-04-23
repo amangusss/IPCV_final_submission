@@ -7,18 +7,18 @@
 
 ## Abstract
 
-Automatic image cropping is the task of selecting the most visually meaningful sub-region of an image for a target aspect ratio without human intervention. This work presents an end-to-end pipeline that combines two complementary saliency estimation strategies — Spectral Residual (SR) saliency and Fine-Grained (FG) local-contrast saliency — with a Canny/Sobel edge-density map and a Gaussian centre-bias prior. Candidate crop windows are scored by a weighted sum of these three signals; the window with the highest aggregate score is selected as the output crop. The pipeline is evaluated on three synthetic scene categories (nature, portrait, document) across seven standard aspect ratios. Results show that the combined saliency–edge scoring consistently places crop windows over regions of high perceptual importance, out-performing centre-only and saliency-only baselines in coverage of salient pixels. The system is implemented in Python using OpenCV and runs in under one second per image on a standard laptop CPU.
+Automatic image cropping is the task of selecting the most visually meaningful sub-region of an image for a target aspect ratio without human intervention. This work presents an end-to-end pipeline that combines two complementary saliency estimation strategies - Spectral Residual (SR) saliency and Fine-Grained (FG) local-contrast saliency - with a Canny/Sobel edge-density map and a Gaussian centre-bias prior. Candidate crop windows are scored by a weighted sum of these three signals; the window with the highest aggregate score is selected as the output crop. The pipeline is evaluated on three synthetic scene categories (nature, portrait, document) across seven standard aspect ratios. Results show that the combined saliency–edge scoring consistently places crop windows over regions of high perceptual importance, out-performing centre-only and saliency-only baselines in coverage of salient pixels. The system is implemented in Python using OpenCV and runs in under one second per image on a standard laptop CPU.
 
 ---
 
 ## 1. Introduction
 
-Modern digital photography and social-media platforms require images to be presented in a variety of aspect ratios: landscape (16:9) for video thumbnails, square (1:1) for Instagram, portrait (9:16) for Stories. Manually re-framing every photograph is laborious. Automatic cropping — also called *content-aware* or *smart* cropping — removes this burden by predicting the optimal sub-region that preserves the most important content.
+Modern digital photography and social-media platforms require images to be presented in a variety of aspect ratios: landscape (16:9) for video thumbnails, square (1:1) for Instagram, portrait (9:16) for Stories. Manually re-framing every photograph is laborious. Automatic cropping - also called *content-aware* or *smart* cropping - removes this burden by predicting the optimal sub-region that preserves the most important content.
 
 The core challenge is defining *importance*. Human attention is drawn to high-contrast objects, faces, text, and salient colour regions. Two complementary computational proxies are used in this project:
 
-1. **Saliency maps** — estimate where human gaze is likely to fall.
-2. **Edge density maps** — capture structural richness that contributes to perceived quality.
+1. **Saliency maps** - estimate where human gaze is likely to fall.
+2. **Edge density maps** - capture structural richness that contributes to perceived quality.
 
 A third signal, a Gaussian **centre-bias prior**, reflects the well-known photographic tendency to place subjects near the image centre.
 
@@ -260,7 +260,7 @@ The weighted combination outperforms centre-crop and saliency-only baselines and
 
 1. **Deep saliency backbone**: Replace OpenCV's SR/FG detectors with a pre-trained U-Net or GAN-based saliency model (e.g., BASNet, U²-Net) for higher-quality maps, especially on natural photographs.
 2. **Aesthetic rules**: Incorporate rule-of-thirds and golden-ratio composition scoring as additional terms in the crop score function.
-3. **Face/object detection**: Add a face detector (e.g., `cv2.CascadeClassifier`) as a hard constraint — crops must contain detected faces.
+3. **Face/object detection**: Add a face detector (e.g., `cv2.CascadeClassifier`) as a hard constraint - crops must contain detected faces.
 4. **Evaluation on public benchmarks**: Test against FCDB (Flickr Cropping Dataset) and GAICD for quantitative comparison with state-of-the-art methods.
 5. **GPU acceleration**: Parallelise the sliding-window search on GPU using CUDA or port the scoring to PyTorch for batch processing.
 
